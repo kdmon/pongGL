@@ -45,15 +45,17 @@ WebAudio	= function(){
 	// sanity check - the api MUST be available
 	console.assert(WebAudio.isAvailable === true, 'webkitAudioContext isnt available on your browser');
 
-	// create the context
-	this._ctx	= new webkitAudioContext();
-
-	// setup the end of the node chain
-	// TODO later code the clipping detection from http://www.html5rocks.com/en/tutorials/webaudio/games/ 
-	this._gainNode	= this._ctx.createGainNode();
-	this._compressor= this._ctx.createDynamicsCompressor();
-	this._gainNode.connect( this._compressor );
-	this._compressor.connect( this._ctx.destination );	
+  if (WebAudio.isAvailable){
+  	// create the context
+  	this._ctx	= new webkitAudioContext();
+  
+  	// setup the end of the node chain
+  	// TODO later code the clipping detection from http://www.html5rocks.com/en/tutorials/webaudio/games/ 
+  	this._gainNode	= this._ctx.createGainNode();
+  	this._compressor= this._ctx.createDynamicsCompressor();
+  	this._gainNode.connect( this._compressor );
+  	this._compressor.connect( this._ctx.destination );	
+  }
 };
 
 
