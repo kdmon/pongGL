@@ -143,22 +143,24 @@ Fireworks.ComboEmitter.Smokepuff.prototype._emitterDtor	= function(){
 //////////////////////////////////////////////////////////////////////////////////
 
 Fireworks.ComboEmitter.Smokepuff.prototype._soundCtor	= function(){
-	// generate the data with jsfx
-	// tune your own [here](http://egonelbre.com/js/jsfx/)
-	var lib		= ["synth",5.0000,0.2960,0.0000,0.1700,0.0000,0.1600,110.0000,462.0000,2400.0000,-0.7400,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.2165,0.0260,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000];
-	var params	= jsfxlib.arrayToParams(lib);
-	var data	= jsfx.generate(params);
-	// create and fill the buffer
-	var buffer	= this._webaudio.context().createBuffer(1, data.length, 44100);
-	var fArray	= buffer.getChannelData(0);
-	for(var i = 0; i < fArray.length; i++){
-		fArray[i]	= data[i];
-	}
-	// create the sound
-	var sound	= this._webaudio.createSound();
-	this._sound	= sound;
-	// set the buffer
-	sound.buffer(buffer);
+  if (window.webkitAudioContext) {
+  	// generate the data with jsfx
+  	// tune your own [here](http://egonelbre.com/js/jsfx/)
+  	var lib		= ["synth",5.0000,0.2960,0.0000,0.1700,0.0000,0.1600,110.0000,462.0000,2400.0000,-0.7400,0.0000,0.0000,0.0100,0.0003,0.0000,0.0000,0.0000,0.2165,0.0260,0.0000,0.0000,0.0000,1.0000,0.0000,0.0000,0.0000,0.0000];
+  	var params	= jsfxlib.arrayToParams(lib);
+  	var data	= jsfx.generate(params);
+  	// create and fill the buffer
+  	var buffer	= this._webaudio.context().createBuffer(1, data.length, 44100);
+  	var fArray	= buffer.getChannelData(0);
+  	for(var i = 0; i < fArray.length; i++){
+  		fArray[i]	= data[i];
+  	}
+  	// create the sound
+  	var sound	= this._webaudio.createSound();
+  	this._sound	= sound;
+  	// set the buffer
+  	sound.buffer(buffer);
+  }
 }
 Fireworks.ComboEmitter.Smokepuff.prototype._soundDtor	= function(){
 	this._sound.destroy();
